@@ -19,19 +19,21 @@ fn main() {
 	let mut count = 0u32;
 	let mut map =  HashMap::new();
 
-	let b = BufReader::new(f);
-	for line in b.lines() {
-	    let s = line.unwrap();
+	let mut b = BufReader::new(f);
+    let mut s = String::new();
+    loop {
+        s.clear();
+        b.read_line(&mut s).unwrap();
+        if s.is_empty() { break; }
+
+        // ~ s.starts_with(..)???
 	    if s.find("2015-").is_some() {
-	    	count +=1 ;
-	    	let v : Vec<&str> = s.split_whitespace().collect();
-	    	let mut k = v[0].to_string();
-	    	k = k + " " + &v[1][.. 2];
-	    	
-	    	match map.get_mut(&k) {
-	    		Some(&mut c) => map.insert(k, c+1),
-	    		None => map.insert(k,1),
-	    	};
+	    	count += 1;
+	    	let mut v = s.split_whitespace();
+	    	let k = format!("{} {}",
+                            v.next().unwrap(),
+                            &v.next().unwrap()[.. 2]);
+	    	*map.entry(k).or_insert(0) += 1;
 	    }
 	}
 	for (a,b) in &map {
