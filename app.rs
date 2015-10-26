@@ -9,7 +9,7 @@ extern crate time;
 
 fn main() {
 	let st = time::get_time();
-	let path = Path::new("D:\\work\\rust\\rfile\\doc\\ssp.log");
+	let path = Path::new("data.log");
 	//println!("{:?}", path.display());
 	let f = match File::open(&path) {
 		Err(why) => panic!("fail{}", Error::description(&why)),
