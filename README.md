@@ -11,6 +11,6 @@
     笔记本，windows，cpu:i5，内存：8G，disk:SSD
 ###   测试结果：
     java(1.6): 826ms
-    rust(1.3): 330ms
     go(1.5): 800ms
+    rust(1.3): 330ms
 
