@@ -9,7 +9,7 @@ extern crate time;
 
 fn main() {
 	let st = time::get_time();
-	let path = Path::new("data.log");
+	let path = Path::new("D:\\work\\rust\\rfile\\doc\\ssp.log");
 	//println!("{:?}", path.display());
 	let f = match File::open(&path) {
 		Err(why) => panic!("fail{}", Error::description(&why)),
@@ -20,6 +20,7 @@ fn main() {
 	let mut map =  HashMap::new();
 
 	let b = BufReader::new(f);
+	/*
 	for line in b.lines() {
 	    let s = line.unwrap();
 	    if s.find("2015-").is_some() {
@@ -34,6 +35,27 @@ fn main() {
 	    	};
 	    }
 	}
+	 */
+	
+	for line in b.lines() {
+        let s = line.unwrap();
+        if s.starts_with("2015-") {
+            count += 1 ;
+
+            let mut sp = s.split_whitespace();
+            // 不需要使用 collect 来遍历所有的数据并分配内存
+            let key = match (sp.next(), sp.next()) {
+                (Some(t1), Some(t2)) => {
+                    format!("{} {}", t1, &t2[.. 2])
+                },
+                _ => unreachable!(),
+            };
+
+            // 使用 entry
+            *map.entry(key).or_insert(0) += 1;
+        }
+    }
+   
 	for (a,b) in &map {
 		println!("{},{}", a,b);
 	}
